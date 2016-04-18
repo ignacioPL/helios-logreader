@@ -14,13 +14,10 @@ object Run {
 
   def main(args: Array[String]): Unit = {
 
+    sys.addShutdownHook( logger.info("exiting") )
+
     logger.info("starting")
 
-    val http = new AsyncHttp
-    val fileReader = new AsyncFileReader
-
-    val analizer = new LogLineAnalizer(fileReader,http)
-
-    analizer.start()
+    LogLineAnalizer(new AsyncFileReader,new AsyncHttp).start()
   }
 }

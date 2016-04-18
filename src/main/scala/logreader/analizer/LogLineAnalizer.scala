@@ -22,5 +22,8 @@ class LogLineAnalizer(fileReader: AsyncFileReader, http: AsyncHttp) {
         MonitoredStatus("ERROR","this",LocalDateTime.now(),s)
       })
       .foreach(ms => http.doPost(ms))
+}
 
+object LogLineAnalizer{
+  def apply(fileReader: AsyncFileReader, http: AsyncHttp): LogLineAnalizer = new LogLineAnalizer(fileReader, http)
 }
