@@ -9,6 +9,5 @@ import rx.lang.scala.JavaConversions._
   * Created by ignacioperez on 18/04/16.
   */
 class AsyncFileReader {
-
   def getLog: Observable[String] = FileObservable.tailer().file(Config.getLocation).tailText()
 }

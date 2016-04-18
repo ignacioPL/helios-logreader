@@ -3,6 +3,8 @@ package logreader.http
 
 import logreader.model.MonitoredStatus
 import logreader.utils.Config
+import org.slf4j.LoggerFactory
+import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import play.api.libs.ws.ning.NingWSClient
 
@@ -14,12 +16,12 @@ import scala.concurrent.Future
 class AsyncHttp {
 
   lazy val client = NingWSClient()
+  lazy val logger = LoggerFactory.getLogger(this.getClass)
+  val url = Config.getDestiny
 
   def doPost(ms: MonitoredStatus): Future[WSResponse]= {
-    val jsonContent = ms.toJsonRep
-    client.url(Config.getDestiny)
-      .withHeaders(("Content-Type", "application/json"),("Content-Length", "" + jsonContent.length))
-      .post(jsonContent)
+    logger.info(s"about to post to $url")
+    client.url(url).post(Json.toJson(ms))
   }
 
 }
