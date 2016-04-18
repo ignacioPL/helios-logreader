@@ -2,6 +2,7 @@ package logreader.http
 
 
 import logreader.model.MonitoredStatus
+import logreader.utils.Config
 import play.api.libs.ws.WSResponse
 import play.api.libs.ws.ning.NingWSClient
 
@@ -15,8 +16,8 @@ class AsyncHttp {
   lazy val client = NingWSClient()
 
   def doPost(ms: MonitoredStatus): Future[WSResponse]= {
-    val jsonContent = ms.toString
-    client.url("")
+    val jsonContent = ms.toJsonRep
+    client.url(Config.getDestiny)
       .withHeaders(("Content-Type", "application/json"),("Content-Length", "" + jsonContent.length))
       .post(jsonContent)
   }

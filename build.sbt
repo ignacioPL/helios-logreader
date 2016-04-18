@@ -10,7 +10,7 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 // Uncomment to use Akka
 //libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.3.11"
 libraryDependencies ++= Seq("com.github.davidmoten" % "rxjava-file" % "0.4",
-      "com.typesafe.play" %% "play-ws" % "2.5.2",
+      "com.typesafe.play" %% "play-ws" % "2.4.6",
       "io.reactivex" %% "rxscala" % "0.26.1"
 )
 
