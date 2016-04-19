@@ -17,7 +17,7 @@ class AsyncHttp {
 
   lazy val client = NingWSClient()
   lazy val logger = LoggerFactory.getLogger(this.getClass)
-  val url = Config.getDestiny
+  val url = s"http://${Config.getDestiny}"
 
   def doPost(ms: MonitoredStatus): Future[WSResponse]= {
     logger.info(s"about to post to $url")
