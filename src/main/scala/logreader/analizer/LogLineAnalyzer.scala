@@ -10,19 +10,19 @@ import logreader.model.MonitoredStatus
 /**
   * Created by ignacioperez on 18/04/16.
   */
-class LogLineAnalizer(fileReader: AsyncFileReader, http: AsyncHttp) extends LazyLogging{
+class LogLineAnalyzer(fileReader: AsyncFileReader, http: AsyncHttp) extends LazyLogging{
 
   val logLevel = """ERROR[^*]*""".r
 
   def start(): Unit = fileReader.getLog
       .filter( s => logLevel.findFirstIn(s).fold[Boolean](false)( _ => true))
-      .map( s => {
+      .map{ s =>
         logger.info(s"error found: $s")
         MonitoredStatus("ERROR","this",LocalDateTime.now(),s)
-      })
-      .foreach(ms => http.doPost(ms))
+      }
+      .foreach(http.doPost)
 }
 
-object LogLineAnalizer{
-  def apply(fileReader: AsyncFileReader, http: AsyncHttp): LogLineAnalizer = new LogLineAnalizer(fileReader, http)
+object LogLineAnalyzer{
+  def apply(fileReader: AsyncFileReader, http: AsyncHttp): LogLineAnalyzer = new LogLineAnalyzer(fileReader, http)
 }

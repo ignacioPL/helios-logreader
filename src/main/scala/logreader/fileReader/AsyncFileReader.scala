@@ -8,6 +8,10 @@ import rx.lang.scala.JavaConversions._
 /**
   * Created by ignacioperez on 18/04/16.
   */
-class AsyncFileReader(config: LogReaderConfig) {
-  def getLog: Observable[String] = FileObservable.tailer().file(config.filePath).tailText()
+trait AsyncFileReader{
+  def getLog: Observable[String]
+}
+
+class AsyncFileReaderImpl(config: LogReaderConfig) extends AsyncFileReader{
+ override def getLog: Observable[String] = FileObservable.tailer().file(config.filePath).tailText()
 }

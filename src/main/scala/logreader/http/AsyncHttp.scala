@@ -14,11 +14,15 @@ import scala.concurrent.Future
 /**
   * Created by ignacioperez on 18/04/16.
   */
-class AsyncHttp(config: LogReaderConfig, materializer: ActorMaterializer) extends LazyLogging with AutoCloseable{
+trait AsyncHttp extends AutoCloseable{
+  def doPost(ms: MonitoredStatus): Future[Unit]
+}
+
+class WsAsyncHttp(config: LogReaderConfig, materializer: ActorMaterializer) extends LazyLogging with AsyncHttp{
 
   private lazy val client = StandaloneAhcWSClient()(materializer)
 
-  def doPost(ms: MonitoredStatus): Future[Unit] = {
+  override def doPost(ms: MonitoredStatus): Future[Unit] = {
     logger.info(s"about to post to ${config.endpoint}")
     client.url(config.endpoint).post(Json.toJson(ms)).map(_ => ())
   }
