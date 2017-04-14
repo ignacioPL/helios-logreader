@@ -1,16 +1,12 @@
 package logreader
 
+import com.typesafe.scalalogging.LazyLogging
 import logreader.analizer.LogLineAnalizer
-import logreader.fileReader.AsyncFileReader
-import logreader.http.AsyncHttp
-import org.slf4j.LoggerFactory
 
 /**
   * Created by ignacioperez on 18/04/16.
   */
-object Run {
-
-  lazy val logger = LoggerFactory.getLogger(this.getClass)
+object Run extends LazyLogging with Module{
 
   def main(args: Array[String]): Unit = {
 
@@ -18,6 +14,6 @@ object Run {
 
     logger.info("starting")
 
-    LogLineAnalizer(new AsyncFileReader,new AsyncHttp).start()
+    LogLineAnalizer(asyncFileReader,asyncHttp).start()
   }
 }

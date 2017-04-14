@@ -2,18 +2,17 @@ package logreader.analizer
 
 import java.time.LocalDateTime
 
+import com.typesafe.scalalogging.LazyLogging
 import logreader.fileReader.AsyncFileReader
 import logreader.http.AsyncHttp
 import logreader.model.MonitoredStatus
-import org.slf4j.LoggerFactory
 
 /**
   * Created by ignacioperez on 18/04/16.
   */
-class LogLineAnalizer(fileReader: AsyncFileReader, http: AsyncHttp) {
+class LogLineAnalizer(fileReader: AsyncFileReader, http: AsyncHttp) extends LazyLogging{
 
   val logLevel = """ERROR[^*]*""".r
-  lazy val logger = LoggerFactory.getLogger(this.getClass)
 
   def start(): Unit = fileReader.getLog
       .filter( s => logLevel.findFirstIn(s).fold[Boolean](false)( _ => true))
